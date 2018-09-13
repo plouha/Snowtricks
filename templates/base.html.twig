@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}SnowTricks{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="icon" href="favicon.ico" />
+        {% block stylesheets %}{% endblock %}
+    </head>
+
+    <div class="container">
+        <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <a class="navbar-brand" href="{{ path('home') }}"><strong>SNOWTRICKS</strong></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarColor01">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="">      </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{  path('security_registration') }}">S'inscrire</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Se Connecter</a>
+                        </li>
+                      </ul>
+                    </div>
+            </nav>
+
+            
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-danger flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+                        
+        </body>
+        {% block body %}{% endblock %}
+
+        {% block footer %}
+            <footer class="text-muted">
+                <div class="container"></div>
+                    <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="#">Haut de page</a></button>
+                    <p>Site construit à l'aide de &copy; Bootstrap</p>
+                </div>
+            </footer>
+        {% endblock %}
+    </div>
+
+</html>

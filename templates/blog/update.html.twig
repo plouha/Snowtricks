@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<div>
+    <h1>Modifier cet article</h1>
+</div>
+
+{{ form_start(formArticle) }}
+
+{{ form_row(formArticle.title) }}
+{{ form_row(formArticle.content) }}
+{{ form_row(formArticle.categorie) }}
+{{ form_row(formArticle.image) }}
+
+<button type="submit" class="btn btn-success">Modifier</button>
+
+{{ form_end(formArticle) }}
+
+{% endblock %}
+
+{% block footer %}
+<footer class="text-muted">
+    <div class="container">
+        <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+        <p>Site construit à l'aide de &copy; Bootstrap</p>
+    </div>
+</footer>
+{% endblock %} 

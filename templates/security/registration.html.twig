@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Inscription sur ce site !</h1>
+    <br>
+    {{ form_start(form) }}
+    {{ form_row(form.username, {'label': 'Pseudo', 'attr': {'placeholder': 'Votre pseudo ... '}}) }}
+    {{ form_row(form.email, {'label': 'Adresse mail', 'attr': {'placeholder': 'Votre adresse email ... '}}) }}
+    {{ form_row(form.plainPassword.first, {'label': 'Mot de passe', 'attr': {'placeholder': 'Votre mot de passe ... '}}) }}
+    {{ form_row(form.plainPassword.second, {'label': 'Confirmation mot de passe', 'attr': {'placeholder': 'Confirmez le mot de passe ... '}}) }}
+    <br>
+    <button type="submit" class="btn btn-success">Je m'inscris</button>
+    {{ form_end(form) }}
+    <br>
+
+{% endblock body %}
+
+{% block footer %}
+<br>
+<footer class="text-muted">
+    <div class="container">
+        <a href="{{ path('home', {'_fragment':'home'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+        <p>Site construit à l'aide de &copy; Bootstrap</p>
+    </div>
+</footer>
+{% endblock %}

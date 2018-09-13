@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <article>
+        <h2>{{ article.title }}</h2>
+    </br>
+        <div class="metadata">Ecrit le&nbsp;&nbsp;{{ article.createdAt | date('d/m/Y') }}&nbsp;&nbsp; à &nbsp;&nbsp;{{ article.createdAt | date('H:i') }}</div>
+        <div class="content">
+            <br/>
+            <br/>
+            <img style="width: 300; height: 450px; margin: 0 auto; margin-top: 15px;" src="{{ article.image }}" alt="">
+            <br/>
+            <br/>
+            {{ article.content }}
+            <br/>
+            <br/>
+        </div>
+    </article>
+
+{% endblock %}
+{% block footer %}
+<footer class="text-muted">
+    <div class="container">
+        <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+        <p>Site construit à l'aide de &copy; Bootstrap</p>
+    </div>
+</footer>
+{% endblock %} 

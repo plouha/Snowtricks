@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br/>
+<img src="{{ '/upload/Snowboard2.png' }}" alt="">
+<br/>
+<br/>
+<button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="#album">Voir les articles</a></button>
+<h1>Bienvenue sur SnowTricks !</h1>                   
+<br/>
+<br/>
+<br/>
+<div class="album py-5 bg-light">
+        <a name="album" id="album"></a>
+        <div class="container" >
+          <div class="row">
+
+          {% for article in articles %}
+
+              <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                  <img class="img-thumbnail" style="width: 100; height: 150px; margin: 0 auto; margin-top: 15px;" src="{{ article.image }}">
+
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="btn-group">
+                        <a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-secondary">{{ article.title }}</a>
+                      </div>
+                      <div class="btn-group">
+                        <a href="{{ path('blog_update', {'id': article.id}) }}"><img src="{{ asset('upload/crayon.png') }}" data-toggle="tooltip" style="margin-right: 30px";></a> 
+                        <a href="{{ path('blog_delete', {'id': article.id}) }}"><img src="{{ asset('upload/poubelle.png') }}" data-toggle="tooltip";></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          {% endfor %}
+
+          </div>
+        </div>
+  </div>                
+ 
+{% endblock %}
