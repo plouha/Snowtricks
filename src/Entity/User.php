@@ -9,6 +9,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *      fields= {"email"},
+ *      message = "Cet email est déjà utilisé"
+ *      )
  */
 class User implements UserInterface
 {
@@ -21,6 +25,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
