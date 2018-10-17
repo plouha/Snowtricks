@@ -18,12 +18,66 @@
         </div>
     </article>
 </div>
+
+<div class="container">
+        <hr>
+        <h3>Commentaires</h3>
+    </br>
+    <section>
+        {% for comment in article.comments %}
+            <h4><strong>{{ comment.user.pseudo }}</strong></h4>
+            <div class="comment">
+                <div class="row">
+                    <div class="col-4">
+                        Ecrit le&nbsp;&nbsp;{{ comment.createdAt | date('d/m/Y') }}&nbsp;&nbsp; à &nbsp;&nbsp;{{ comment.createdAt | date('H:i') }}&nbsp;&nbsp;
+                    </div>
+                    <div class="col-8">
+                        {{ comment.content | raw }}
+
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <a href="{{ path('blog_signal', {'id': comment.id}) }}" class="btn btn-warning float-right">Signaler</a>
+                    {% endif  %}                    
+                    </div>
+                </div>
+            </div>
+            </br>
+        {% else %}
+            <p>Pas de commentaire pour l'instant ...</p>
+        {% endfor %}
+
+    </section>
+    </br>
+    </br>
+
+    <div>
+        <hr>
+        <h3>Nouveau commentaire</h3>
+    </div>
+    </br>
+    
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    
+    {{ form_start(formComment) }}
+    <br>
+    {{ form_row(formComment.content, {'label': 'Commentaire', 'attr': {'placeholder': "Votre commentaire ..."}}) }}
+    <br>
+    <button type="submit" class="btn btn-success">Ajouter</button>
+    <br>
+    {{ form_end(formComment) }}
+    
+    {% else %}
+    
+    <h4 class="display-6 text-center text-danger p-md-3">Pour écrire un commentaire, vous devez vous connecter !</h4>
+    
+    {% endif  %}
+</div>
 {% endblock %}
+
 {% block footer %}
 <footer class="text-muted">
     <div class="container">
         <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-        <p>Site construit à l'aide de &copy; Bootstrap</p>
+        <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
     </div>
 </footer>
 {% endblock %} 

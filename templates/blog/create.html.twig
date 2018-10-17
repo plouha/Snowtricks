@@ -3,30 +3,31 @@
 
 {% block body %}
 <div class="container">
-<div>
-    <h1>Nouvel article</h1>
-</div>
-
-{{ form_start(formArticle) }}
-<br>
-{{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de la figure"}}) }}
-{{ form_row(formArticle.content, {'attr': {'placeholder': "Description de la figure"}}) }}
-{{ form_row(formArticle.categorie, {'attr': {'placeholder': "Catégorie de la figure"}}) }}
-{{ form_row(formArticle.image, {'attr': {'placeholder': "Nom de la photo de la figure"}}) }}
-<br>
-<button type="submit" class="btn btn-success">Ajouter</button>
-<br>
-{{ form_end(formArticle) }}
-
-</div>
+    <div>
+        <h1>Nouvel article</h1>
+    </div>
+    
+    {{ form_start(formArticle) }}
+    <br>
+    {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de la figure"}}) }}
+    {{ form_row(formArticle.content, {'attr': {'placeholder': "Description de la figure"}}) }}
+    {{ form_row(formArticle.categorie, {'attr': {'placeholder': "Catégorie de la figure"}}) }}
+    {{ form_row(formArticle.image, {'attr': {'placeholder': "Nom de la photo de la figure"}}) }}
+    <br>
+    <button type="submit" class="btn btn-success">Ajouter</button>
+    <br>
+    {{ form_end(formArticle) }}
+    
+    </div>
 {% endblock %}
 
 {% block footer %}
 <br>
-<footer class="text-muted">
-    <div class="container">
-        <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-        <p>Site construit à l'aide de &copy; Bootstrap</p>
-    </div>
-</footer>
+    <footer class="text-muted">
+        <div class="container">
+            <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+            <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
+        </div>
+    </footer>
+</div>    
 {% endblock %} 

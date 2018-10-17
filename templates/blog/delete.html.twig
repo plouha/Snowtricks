@@ -5,25 +5,25 @@
 <div class="container">
 {{ form_start(form) }}
 <div>
-    <h1>Supprimer cet article</h1>
+    <h1>Supprimer ... ?</h1>
 </div>
 <br>
 <br>
 <br>
-<h4>Voulez-vous vraiment supprimer cet article ?</h4>
+<h4>Voulez-vous vraiment supprimer cet élément ?</h4>
 <br>
 <br>
 {{ form_widget(form) }}
+
 {{ form_end(form) }}
 {% endblock %}
-</div>
-</div>
+
 {% block footer %}
 
 <footer class="text-muted">
     <div class="container">
         <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-        <p>Site construit à l'aide de &copy; Bootstrap</p>
+        <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
     </div>
 </footer>
 

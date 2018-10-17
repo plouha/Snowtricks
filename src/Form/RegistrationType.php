@@ -17,16 +17,13 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('username')
+            ->add('pseudo')
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'Vos passwords sont différents',
                 'first_options'  => array('label' => 'password'),
                 'second_options' => array('label' => 'confirm_password'),
-            ))
-            /*->add('password', PasswordType::class)
-            ->add('confirm_password', PasswordType::class) */
-        ;
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

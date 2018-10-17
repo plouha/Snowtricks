@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}SnowTricks{% endblock %}</title>
+        {% block stylesheets %}
         <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="icon" href="favicon.ico" />
-        {% block stylesheets %}{% endblock %}
+        {% endblock %}
     </head>
 
     <div class="container">
@@ -28,7 +29,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{  path('security_registration') }}">S'inscrire</a>
                         </li>
-                        {% if not app.user %}
+                        
+                        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{  path('security_login') }}">Se Connecter</a>
                             </li>
@@ -37,6 +39,7 @@
                                 <a class="nav-link" href="{{  path('security_logout') }}">Deconnexion</a>
                             </li>
                         {% endif %}
+                        
                       </ul>
                     </div>
             </nav>
@@ -44,6 +47,7 @@
             
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
+                    </br>
                     <div class="alert alert-danger flash-{{ label }}">
                         {{ message }}
                     </div>
@@ -53,12 +57,13 @@
                         
         </body>
         {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
 
         {% block footer %}
             <footer class="text-muted">
                 <div class="container"></div>
                     <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="#">Haut de page</a></button>
-                    <p>Site construit à l'aide de &copy; Bootstrap</p>
+                    <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
                 </div>
             </footer>
         {% endblock %}

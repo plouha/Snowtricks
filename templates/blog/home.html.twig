@@ -2,7 +2,7 @@
 
 {% block body %}
 <br/>
-<img src="{{ '/upload/Snowboard2.png' }}" alt="">
+<img src="{{ 'upload/snowboard2.png' }}" alt="">
 <br/>
 <br/>
 <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="#album">Voir les articles</a></button>
@@ -28,7 +28,7 @@
                       </div>
                       <div class="btn-group">
                         <a href="{{ path('blog_update', {'id': article.id}) }}"><img src="{{ asset('upload/crayon.png') }}" data-toggle="tooltip" style="margin-right: 30px";></a> 
-                        <a href="{{ path('blog_delete', {'id': article.id}) }}"><img src="{{ asset('upload/poubelle.png') }}" data-toggle="tooltip";></a>
+                        <a href="{{ path('blog_delete', {'id': article.id}) }}"><img src="{{ asset('upload/Poubelle.png') }}" data-toggle="tooltip";></a>
                       </div>
                     </div>
                   </div>

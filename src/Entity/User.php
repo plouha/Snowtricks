@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -32,7 +34,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -44,6 +46,7 @@ class User implements UserInterface
      * @Assert\Length( min = 8, minMessage = "Votre mot de passe doit avoir au minimum 8 caractères" )
      */
     private $plainPassword;
+
 
     public function getPlainPassword(): ?string
     {
@@ -62,6 +65,19 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -76,14 +92,7 @@ class User implements UserInterface
 
     public function getUsername(): ?string
     {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
+        return $this->email;
     }
 
     public function getPassword(): ?string
@@ -105,4 +114,5 @@ class User implements UserInterface
     public function getRoles() {
         return ['ROLE_USER'];
     }
+
 }
