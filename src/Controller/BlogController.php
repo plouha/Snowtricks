@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,13 +29,21 @@ class BlogController extends Controller
 {
     
     /**
-     * @Route("/", name="home")
+     * @Route("/{page<\d+>?1}", name="home")
      */
-    public function home(EntityManagerInterface $manager) 
-    {
-        $articles = $manager->getRepository(Article::class)->findAll();
+    public function home(EntityManagerInterface $manager, $page) 
+    {   
+        $limit = 6;
+        $start = $page * $limit - $limit;
+
+        $total = count($manager->getRepository(Article::class)->findAll());
+        $pages = ceil($total / $limit);
+        
+        $articles = $manager->getRepository(Article::class)->findBy([], [], $limit, $start);
         return $this->render('blog/home.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 

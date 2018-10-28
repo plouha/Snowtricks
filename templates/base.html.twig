@@ -12,6 +12,7 @@
 
     <div class="container">
         <body>
+            <div id="home">
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                     <a class="navbar-brand" href="{{ path('home') }}"><strong>SNOWTRICKS</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +43,8 @@
                         
                       </ul>
                     </div>
-            </nav>
-
+                </nav>
+            </div>
             
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
@@ -62,7 +63,7 @@
         {% block footer %}
             <footer class="text-muted">
                 <div class="container"></div>
-                    <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="#">Haut de page</a></button>
+                    <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="path('home', {'_fragment':'home'})">Haut de page</a></button>
                     <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
                 </div>
             </footer>
