@@ -8,8 +8,9 @@ use App\Entity\Comment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ArticleType extends AbstractType
 {
@@ -22,7 +23,7 @@ class ArticleType extends AbstractType
                 "class" => Category::class,
                 "choice_label" => "name"
             ])
-            ->add('image')
+            ->add('file', FileType::class, array ( 'label' => 'Image à uploader' ))
 
         ;
     }

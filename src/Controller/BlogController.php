@@ -9,6 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Upload;
+use App\Entity\UploadedFile;
+use App\Service\FileUploader;
 use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Form\CommentType;
@@ -36,21 +39,22 @@ class BlogController extends Controller
         $limit = 6;
         $start = $page * $limit - $limit;
 
-        $total = count($manager->getRepository(Article::class)->findAll());
+        $total = $manager->getRepository(Article::class)->countArticles();
         $pages = ceil($total / $limit);
         
-        $articles = $manager->getRepository(Article::class)->findBy([], [], $limit, $start);
+        $articles = $manager->getRepository(Article::class)->findBy([], ["createdAt" => "asc"], $limit, $start);
         return $this->render('blog/home.html.twig', [
             'articles' => $articles,
             'pages' => $pages,
-            'page' => $page
+            'page' => $page,
+            'pages_range' => range(max(1, $page-2), min($pages, $page+2))
         ]);
     }
 
     /**
      * @Route("/blog/", name="blog_create")
      */
-    public function create(Request $request, ObjectManager $manager)
+    public function create(Request $request, ObjectManager $manager, FileUploader $fileUploader)
     {
         $article = new Article();           // on crée une instance de la classe Article
 
@@ -61,7 +65,10 @@ class BlogController extends Controller
         if($form->isSubmitted() && $form->isValid()) {  // si formulaire soumis et valide
 
             $article->setCreatedAt(new \DateTime);      // on crée la date du moment
+            $fileName = $fileUploader->upload($article->file);
+            $article->setImage ( $fileName );
 
+            
             $manager->persist($article);                // on fait persister l'article
             $manager->flush();                          // on enregistre en base de données
 
@@ -80,7 +87,7 @@ class BlogController extends Controller
     public function show(Article $article, Request $request, ObjectManager $manager)
     {
         $comment = new Comment();           // on crée une instance de la classe Comment
-
+        
                                             // $form est un objet contenant les éléments du form
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);     // on demande l'analyse de la requete
 

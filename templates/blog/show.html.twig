@@ -9,7 +9,7 @@
         <div class="content">
             <br/>
             <br/>
-            <img style="width: 300; height: 450px; margin: 0 auto; margin-top: 15px;" src="{{ article.image }}" alt="">
+            <img style="width: 300; height: 450px; margin: 0 auto; margin-top: 15px;" src="{{ asset("upload/" ~ article.image) }}" alt="">
             <br/>
             <br/>
             {{ article.content }}
@@ -25,8 +25,9 @@
     </br>
     <section>
         {% for comment in article.comments %}
+            <div class= bg-light rounded mb-4>
             <h4><strong>{{ comment.user.pseudo }}</strong></h4>
-            <div class="comment">
+              <div class="comment">
                 <div class="row">
                     <div class="col-4">
                         Ecrit le&nbsp;&nbsp;{{ comment.createdAt | date('d/m/Y') }}&nbsp;&nbsp; à &nbsp;&nbsp;{{ comment.createdAt | date('H:i') }}&nbsp;&nbsp;
@@ -39,6 +40,7 @@
                     {% endif  %}                    
                     </div>
                 </div>
+              </div>
             </div>
             </br>
         {% else %}
@@ -46,6 +48,7 @@
         {% endfor %}
 
     </section>
+
     </br>
     </br>
 
@@ -77,7 +80,7 @@
 <footer class="text-muted">
     <div class="container">
         <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-        <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
+        <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
     </div>
 </footer>
 {% endblock %} 

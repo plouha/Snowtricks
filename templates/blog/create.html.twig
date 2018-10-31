@@ -9,10 +9,10 @@
     
     {{ form_start(formArticle) }}
     <br>
-    {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de la figure"}}) }}
-    {{ form_row(formArticle.content, {'attr': {'placeholder': "Description de la figure"}}) }}
-    {{ form_row(formArticle.categorie, {'attr': {'placeholder': "Catégorie de la figure"}}) }}
-    {{ form_row(formArticle.image, {'attr': {'placeholder': "Nom de la photo de la figure"}}) }}
+    {{ form_row(formArticle.title, {'label': 'Nom de la Figure', 'attr': {'placeholder': "Nom de la figure"}}) }}
+    {{ form_row(formArticle.content, {'label': 'Description de la Figure','attr': {'placeholder': "Description de la figure"}}) }}
+    {{ form_row(formArticle.categorie, {'label': 'Catégorie de la Figure','attr': {'placeholder': "Catégorie de la figure"}}) }}
+    {{ form_row(formArticle.file, {'attr': {'placeholder': "sélectionnez une image à uploader"}}) }}
     <br>
     <button type="submit" class="btn btn-success">Ajouter</button>
     <br>
@@ -26,7 +26,7 @@
     <footer class="text-muted">
         <div class="container">
             <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-            <p>Site construit à l'aide de &copy; Bootstrap & Symfony 4 </p>
+            <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
         </div>
     </footer>
 </div>    

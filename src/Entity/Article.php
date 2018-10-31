@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert ;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +28,12 @@ class Article
      * @ORM\Column(type="text")
      */
     private $content;
+
+    /**
+     * @Assert\NotBlank(message="Veuillez choisir le fichier à télécharger.")
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg", "image/gif" })
+     */
+    public $file;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -84,12 +91,12 @@ class Article
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage()
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage($image): self
     {
         $this->image = $image;
 

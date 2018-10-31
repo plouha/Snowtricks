@@ -19,7 +19,7 @@
 
               <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                  <img class="img-thumbnail" style="width: 100; height: 150px; margin: 0 auto; margin-top: 15px;" src="{{ article.image }}">
+                  <img class="img-thumbnail" style="width: 100; height: 150px; margin: 0 auto; margin-top: 15px;" src="{{ asset("upload/" ~ article.image) }}">
 
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -44,8 +44,8 @@
                   <a class="page-link" href="{{path('home', {'page': page - 1})}}">&laquo;</a>
                 </li>
                 
-                {% for i in 1..pages  %}
-                <li class="page-item {% if page == i %}active"{% endif %}">
+                {% for i in pages_range  %}
+                <li class="page-item {% if page == i %}active{% endif %}">
                   <a class="page-link" href="{{path('home', {'page': i})}}">{{ i }}</a>
                 </li>
                 {% endfor %}
@@ -54,7 +54,7 @@
                   <a class="page-link" href="{{path('home', {'page': page + 1})}}">&raquo;</a>
                 </li>
               </ul>
-            </div>
+          </div>
         </div>
   </div>                
  
