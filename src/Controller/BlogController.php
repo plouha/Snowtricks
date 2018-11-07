@@ -12,9 +12,12 @@ use App\Entity\Comment;
 use App\Entity\Upload;
 use App\Entity\UploadedFile;
 use App\Service\FileUploader;
+use App\Service\ArticlePaginationService;
+use App\Service\CommentPaginationService;
 use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Form\CommentType;
+use App\Controller\CommentRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Form;
@@ -34,20 +37,14 @@ class BlogController extends Controller
     /**
      * @Route("/{page<\d+>?1}", name="home")
      */
-    public function home(EntityManagerInterface $manager, $page) 
+    public function home(EntityManagerInterface $manager, $page, ArticlePaginationService $pagination) 
     {   
-        $limit = 6;
-        $start = $page * $limit - $limit;
-
-        $total = $manager->getRepository(Article::class)->countArticles();
-        $pages = ceil($total / $limit);
+        $pagination->setPage($page);                   // indique la page concernée
         
-        $articles = $manager->getRepository(Article::class)->findBy([], ["createdAt" => "asc"], $limit, $start);
         return $this->render('blog/home.html.twig', [
-            'articles' => $articles,
-            'pages' => $pages,
-            'page' => $page,
-            'pages_range' => range(max(1, $page-2), min($pages, $page+2))
+            'pagination' => $pagination                 // on passe les données de pagination
+
+            //'pages_range' => range(max(1, $page-2), min($pages, $page+2))
         ]);
     }
 
@@ -65,11 +62,11 @@ class BlogController extends Controller
         if($form->isSubmitted() && $form->isValid()) {  // si formulaire soumis et valide
 
             $article->setCreatedAt(new \DateTime);      // on crée la date du moment
-            $fileName = $fileUploader->upload($article->file);
-            $article->setImage ( $fileName );
+            $fileName = $fileUploader->upload($article->file); // on récupère le fichier à télécharger
+            $article->setImage ( $fileName ); // et on le met en base
 
             
-            $manager->persist($article);                // on fait persister l'article
+            $manager->persist($article);                // on fait persister l'article et toutes ses composantes
             $manager->flush();                          // on enregistre en base de données
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé
@@ -82,22 +79,22 @@ class BlogController extends Controller
 
 
     /**
-     * @Route("/blog/show/{id}", name="blog_show")
+     * @Route("/blog/show/{id}/{page<\d+>?1}", name="blog_show")
      */
-    public function show(Article $article, Request $request, ObjectManager $manager)
+    public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination)
     {
         $comment = new Comment();           // on crée une instance de la classe Comment
         
                                             // $form est un objet contenant les éléments du form
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);     // on demande l'analyse de la requete
 
-        
+                    
         if($form->isSubmitted() && $form->isValid()) {  // si formulaire soumis et valide
 
             $comment->setCreatedAt(new \DateTime());    //on récupère la date actuelle
             $comment->setArticle($article);             //on récupère l'id de l'article lié
-            $comment->setSignaled("0");
-            $comment->setUser($this->getUser());                   //on récupère l'id de l'auteur           
+            $comment->setSignaled("0");                 // Par défaut on indique ... "non signalé"
+            $comment->setUser($this->getUser());        //on récupère l'id de l'auteur           
 
             $manager->persist($comment);                // on fait persister $article
 
@@ -105,10 +102,16 @@ class BlogController extends Controller
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on retourne sur l'article mis à jour
         }
-
+        
+    
+        $pagination ->setArticle($article)
+                    ->setLimit(5)                           // indique la limite ... ici différente (5 au lieu de 6)
+                    ->setPage($page);                       // indique la page concernée (1 par défaut)
+                    
         return $this->render('blog/show.html.twig', [
-            'article' => $article,
-            'formComment' => $form->createView()       // on passe à TWIG le résultat des éléments
+            'article' => $article,                      // on passe les données de l'article
+            'pagination' => $pagination,                // on envoie les informations pour la pagination des commentaires
+            'formComment' => $form->createView()        // on passe à TWIG le résultat des éléments pour le formulaire
         ]);                                             // dont il a besoin et on fait la vue
         
     }
@@ -148,13 +151,15 @@ class BlogController extends Controller
     /**
      * @Route("/blog/update/{id}", name="blog_update")
      */
-    public function update(Article $article, Request $request, ObjectManager $manager)
+    public function update(Article $article, Request $request, ObjectManager $manager, FileUploader $fileUploader)
     {
 
         $form = $this->createForm(ArticleType::class, $article)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {      // si formulaire soumis et valide
         
+            $fileName = $fileUploader->upload($article->file); // on récupère le fichier à télécharger
+            $article->setImage ( $fileName ); // et on le met en base
             $manager->flush();                              // on enregistre en base de données
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé

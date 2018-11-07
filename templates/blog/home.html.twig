@@ -15,7 +15,7 @@
         <div class="container" >
           <div class="row">
 
-          {% for article in articles %}
+          {% for article in pagination.data %}
 
               <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
@@ -39,12 +39,14 @@
 
           </div>
           <div class="d-flex justify-content-center">
+              {% set page = pagination.page %}
+              {% set pages = pagination.pages %}
               <ul class="pagination">
                 <li class="page-item {% if page == 1 %}disabled{% endif %}">
                   <a class="page-link" href="{{path('home', {'page': page - 1})}}">&laquo;</a>
                 </li>
                 
-                {% for i in pages_range  %}
+                {% for i in 1..pages %}
                 <li class="page-item {% if page == i %}active{% endif %}">
                   <a class="page-link" href="{{path('home', {'page': i})}}">{{ i }}</a>
                 </li>
