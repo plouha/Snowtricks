@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="container">
+<div>
+    <h1>Modifier ce commentaire</h1>
+</div>
+
+{{ form_start(formComment) }}
+{{ form_row(formComment.content) }}
+
+<button type="submit" class="btn btn-success">Modifier</button>
+
+{{ form_end(formComment) }}
+</div>
+<br>
+{% endblock %}
+
+{% block footer %}
+<footer class="text-muted">
+    <div class="container">
+        <a href="{{ path('admin_comment') }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+        <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
+    </div>
+</footer>
+{% endblock %} 

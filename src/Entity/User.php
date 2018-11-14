@@ -47,7 +47,15 @@ class User implements UserInterface
      * @Assert\Length( min = 8, minMessage = "Votre mot de passe doit avoir au minimum 8 caractères" )
      */
     private $plainPassword;
-
+    
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
+    
+    public function __construct() {
+        $this->roles = array('ROLE_USER');
+    }
 
     public function getPlainPassword(): ?string
     {
@@ -112,8 +120,9 @@ class User implements UserInterface
 
     public function getSalt() {}
     
-    public function getRoles() {
-        return ['ROLE_USER'];
+    public function getRoles(): ?array 
+    {
+        return $this->roles;
     }
 
 }

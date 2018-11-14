@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="container">
+{{ form_start(form) }}
+<div>
+    <h1>Supprimer ... ?</h1>
+</div>
+<br>
+<br>
+<br>
+<h4>Voulez-vous vraiment supprimer cet élément ?</h4>
+<br>
+<br>
+{{ form_widget(form) }}
+
+{{ form_end(form) }}
+{% endblock %}
+
+{% block footer %}
+
+<footer class="text-muted">
+    <div class="container">
+        <a href="{{ path('admin_comment') }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
+        <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
+    </div>
+</footer>
+
+{% endblock %} 

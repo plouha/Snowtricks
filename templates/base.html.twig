@@ -28,11 +28,14 @@
                         <li class="nav-item">
                           <a class="nav-link" href="{{ path('blog_create') }}">Créer un article</a>
                         </li>
+                        
+                        {% if not is_granted('ROLE_USER') %}                        
                         <li class="nav-item">
                             <a class="nav-link" href="{{  path('security_registration') }}">S'inscrire</a>
                         </li>
+                        {% endif %}                        
                         
-                        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if not is_granted('ROLE_USER') %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{  path('security_login') }}">Se Connecter</a>
                             </li>
@@ -42,6 +45,12 @@
                             </li>
                         {% endif %}
                         
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{  path('admin_comment') }}">Modérer commentaires</a>
+                            </li>
+                        {% endif %}
+
                       </ul>
                     </div>
                 </nav>
@@ -55,16 +64,16 @@
                     </div>
                 {% endfor %}
             {% endfor %}
-
-                        
         </body>
+        </br>
+        </br>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
 
         {% block footer %}
             <footer class="text-muted">
                 <div class="container"></div>
-                    <button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="path('home', {'_fragment':'home'})">Haut de page</a></button>
+                    <a href="{{ path('home', {'_fragment':'home'}) }}" class="btn btn-outline-warning btn-sm float-right">Haut de page</a>
                     <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
                 </div>
             </footer>

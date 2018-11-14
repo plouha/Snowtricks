@@ -6,7 +6,7 @@ use App\Form\CommentType;
 use App\Entity\Article;
 use Doctrine\Common\Persistence\ObjectManager; // donne accès à toutes les méthodess (find, persist, ...)
 
-class CommentPaginationService {
+class PaginationService {
     
     private $entityClass;
     private $limit = 6;

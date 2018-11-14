@@ -76,7 +76,7 @@
     </div>
     </br>
     
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% if is_granted('ROLE_USER') %}
     
     {{ form_start(formComment) }}
     <br>

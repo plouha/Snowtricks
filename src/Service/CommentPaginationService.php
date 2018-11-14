@@ -47,7 +47,7 @@ class CommentPaginationService {
         
         // on demande au repositary de trouver les éléments nécessaires
         $repo = $this->manager->getRepository(Comment::class);
-        $data = $repo->findBy(["article" => $this->article], ["createdAt" => "desc"], $this->limit, $offset); // = pas de recherche particulière, ni d'ordre (les 2 [])
+        $data = $repo->findBy(["article" => $this->article], ["createdAt" => "desc"], $this->limit, $offset); // = comments par article, et date desc (les 2 [])
         
         // et on renvoit les éléments trouvés
         return $data;

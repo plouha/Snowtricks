@@ -31,10 +31,10 @@ class SecurityController extends Controller
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('security_login'); // Après inscription on est redirigé sur le formulaire de login
         }
         
-        return $this->render('security/registration.html.twig', [
+        return $this->render('security/registration.html.twig', [ // Pour s'inscrire on est envoyé sur le formulaire correspondant
             'form' => $form->createView()
         ]);
     }
@@ -42,11 +42,11 @@ class SecurityController extends Controller
     /**
      * @Route("/connexion", name="security_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils) {
+    public function login(AuthenticationUtils $authenticationUtils) { // Formulaire de connexion avec contrôle d'authentification
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
+        // Dernier nom entré
         $lastUsername = $authenticationUtils->getLastUsername();
     
         return $this->render('security/login.html.twig', array(

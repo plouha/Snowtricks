@@ -5,8 +5,10 @@
 <img src="{{ 'upload/snowboard2.png' }}" alt="">
 <br/>
 <br/>
-<button type="button" class="btn btn-sm btn-outline-warning float-right"><a href="path('home', {'_fragment':'album'})">Voir les articles</a></button>
-<h1>Bienvenue sur SnowTricks !</h1>                   
+    <div class="container">
+        <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Voir les articles</a>
+        <h1>Bienvenue sur SnowTricks !</h1> 
+    </div>
 <br/>
 <br/>
 <br/>

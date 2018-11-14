@@ -158,9 +158,9 @@ class BlogController extends Controller
 
         if($form->isSubmitted() && $form->isValid()) {      // si formulaire soumis et valide
         
-            $fileName = $fileUploader->upload($article->file); // on récupère le fichier à télécharger
-            $article->setImage ( $fileName ); // et on le met en base
-            $manager->flush();                              // on enregistre en base de données
+            $fileName = $fileUploader->upload($article->file);  // on récupère le fichier à télécharger
+            $article->setImage ( $fileName );                   // et on le met en base
+            $manager->flush();                                  // on enregistre en base de données
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé
         }
