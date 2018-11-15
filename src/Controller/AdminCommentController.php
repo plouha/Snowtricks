@@ -45,7 +45,8 @@ class AdminCommentController extends AbstractController
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {          // si formulaire soumis et valide
-        
+
+            $comment->setSignaled("0");        
             $manager->flush();                                  // on enregistre en base de données
 
             $this->addFlash(                                    // on envoie un message de confirmation
