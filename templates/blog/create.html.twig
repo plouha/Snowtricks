@@ -13,12 +13,31 @@
     {{ form_row(formArticle.content, {'label': 'Description de la Figure','attr': {'placeholder': "Description de la figure"}}) }}
     {{ form_row(formArticle.categorie, {'label': 'Catégorie de la Figure','attr': {'placeholder': "Catégorie de la figure"}}) }}
     {{ form_row(formArticle.file, {'attr': {'placeholder': "sélectionnez une image à uploader"}}) }}
+
+    <strong>Photos :</strong>
+    <button type="button" class="btn btn-sm btn-primary btn-add" data-rel="#photos">Ajouter</button>
+    <div id="photos" class="row" data-index="{{ formArticle.photos|length > 0 ? formArticle.photos|last.vars.name+1 : 0 }}" data-prototype="{{ include("trick/image.html.twig", { form: formArticle.photos.vars.prototype })|e("html_attr") }}">
+        {% for photo in formArticle.photos %}
+            {{ include("trick/image.html.twig", { form: photo }) }}
+        {% endfor %}
+    </div>
+    <br>
+    <strong>Vidéos :</strong>
+    <button type="button" class="btn btn-sm btn-primary btn-add" data-rel="#videos">Ajouter</button>
+    <div id="videos" class="row" data-index="{{ formArticle.videos|length > 0 ? formArticle.videos|last.vars.name+1 : 0 }}" data-prototype="{{ include("trick/video.html.twig", { form: formArticle.videos.vars.prototype })|e("html_attr") }}">
+        {% for video in formArticle.videos %}
+            {{ include("trick/video.html.twig", { form: video }) }}
+        {% endfor %}
+    </div>
     <br>
     <button type="submit" class="btn btn-success">Ajouter</button>
     <br>
     {{ form_end(formArticle) }}
     
     </div>
+    <br>
+
+    <br>
 {% endblock %}
 
 {% block footer %}

@@ -1,0 +1,9 @@
+<div class="col-4 p-2" id="photo-{{ form.vars.name }}">
+    <div class="border p-2 w-100">
+        {% if form.vars.data.name is defined and form.vars.data.name is not null %}
+            <img src="{{ asset("upload/" ~ form.vars.data.name) }}" width="100%"/>
+        {% endif %}
+        {{ form_row(form.file) }}
+        <button type="button" class="btn-btn-sm btn-danger btn-remove" data-rel="#photo-{{ form.vars.name }}">Supprimer</button>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
+<div>
     <article>
         <h2>{{ article.title }}</h2>
     </br>
@@ -16,8 +16,17 @@
             <br/>
             <br/>
         </div>
+</div>    
     </article>
-</div>
+    <div class="container">
+        {% for photo in article.photos %}
+            <img class="thumbnail zoom" style="width: 110px; height: 110px; margin-bottom: 100px;" src="{{ asset("upload/" ~ photo.name) }}" alt="">
+        {% endfor %}
+        {% for video in article.videos %}
+           <iframe width="200" height="110" src="{{ video.name }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true"></iframe>
+        {% endfor %}
+    </div>
+
 
 <div class="container">
         <hr>
@@ -49,10 +58,15 @@
     </table>
     </br>
     </br>
-        
+
     <div class="d-flex justify-content-center">
       {% set page = pagination.page %}
       {% set pages = pagination.pages %}
+      
+      {% if pages == 0 %}
+      
+      {% else %}
+      
       <ul class="pagination">
         <li class="page-item {% if page == 1 %}disabled{% endif %}">
           <a class="page-link" href="{{path('blog_show', {'page': page - 1, id: article.id})}}">&laquo;</a>
@@ -68,6 +82,7 @@
           <a class="page-link" href="{{path('blog_show', {'page': page + 1, id: article.id})}}">&raquo;</a>
         </li>
       </ul>
+        {% endif %}
     </div>
 
     <div>

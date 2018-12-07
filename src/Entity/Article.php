@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\CommentType;
 use Symfony\Component\Validator\Constraints as Assert ;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,7 +32,6 @@ class Article
     private $content;
 
     /**
-     * @Assert\NotBlank(message="Veuillez choisir le fichier à télécharger.")
      * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg", "image/gif" })
      */
     public $file;
@@ -52,14 +52,27 @@ class Article
      */
     private $categorie;
 
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article", orphanRemoval=true, cascade={"persist"})
      */
     private $comments;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="article", orphanRemoval=true, cascade={"persist"})
+     */
+    private $photos;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="article", orphanRemoval=true, cascade={"persist"})
+     */
+    private $videos;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->photos = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
 
@@ -135,29 +148,81 @@ class Article
     {
         return $this->comments;
     }
-
-    public function addComment(Comment $comment): self
+    
+   // /**
+    // * @return int|null
+    // */
+    //  public function getId(): ?int
+    //  {
+    //      return $this->id;
+    //  } */
+    
+    /**
+     * @return null|string
+     */
+    //public function getName(): ?string
+    //{
+    //    return $this->name;
+    //}
+    
+    /**
+     * @param null|string $name
+     */
+    public function setName(?string $name): void
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getArticle() === $this) {
-                $comment->setArticle(null);
-            }
-        }
-
-        return $this;
+        $this->name = $name;
     }
     
-
+    /**
+     * @return Collection
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+    
+    /**
+     * @param Photo $photo
+     */
+    public function addPhoto(Photo $photo)
+    {
+        $photo->setArticle($this);
+        $this->photos->add($photo);
+    }
+    
+    /**
+     * @param Photo $photo
+     */
+    public function removePhoto(Photo $photo)
+    {
+        $photo->setArticle(null);
+        $this->photos->removeElement($photo);
+    }
+    
+    /**
+     * @return Collection
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+    
+    /**
+     * @param Video $video
+     */
+    public function addVideo(Video $video)
+    {
+        $video->setArticle($this);
+        $this->videos->add($video);
+    }
+    
+    /**
+     * @param Video $video
+     */
+    public function removeVideo(Video $video)
+    {
+        $video->setArticle(null);
+        $this->videos->removeElement($video);
+    }
+    
 }

@@ -16,6 +16,7 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    
 
     cache:
         # Put the unique name of your app here: the prefix seed

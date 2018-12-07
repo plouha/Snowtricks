@@ -9,14 +9,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Video;
+use App\Entity\Photo;
 use App\Entity\Upload;
 use App\Entity\UploadedFile;
 use App\Service\FileUploader;
 use App\Service\ArticlePaginationService;
 use App\Service\CommentPaginationService;
 use App\Form\ArticleType;
+use App\Form\TexteType;
 use App\Form\CategoryType;
 use App\Form\CommentType;
+use App\Form\PhotoType;
+use App\Form\VideoType;
 use App\Controller\CommentRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormBuilder;
@@ -24,6 +29,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -63,8 +69,24 @@ class BlogController extends Controller
 
             $article->setCreatedAt(new \DateTime);      // on crée la date du moment
             $fileName = $fileUploader->upload($article->file); // on récupère le fichier à télécharger
-            $article->setImage ( $fileName ); // et on le met en base
+            $article->setImage ( $fileName );           // et on le met en base
 
+            
+                                                        // Pour les collections de photos et vidéos liées à chaque article
+            foreach($article->getPhotos() as $photo) {
+                if($photo->file !== null) {
+                    $fileName = $fileUploader->upload($photo->file); // on télécharge le fichier à récupèrer
+                    $photo->setName ( $fileName ); 
+                }
+            }
+            
+            foreach($article->getVideos() as $video) {      // On change l'url pour qu'elle finisse par /embed/nom du fichier youtube
+                if($video->name !== null) {                 // en utilisant le fonction PHP str_replace
+                    $videoName 	= str_replace('youtu.be/', 'www.youtube.com/embed/', $video); 
+		            $videoName 	= str_replace('www.youtube.com/watch?v=', 'www.youtube.com/embed/', $video);
+                    $video->setName ($videoName);
+                }
+            }   
             
             $manager->persist($article);                // on fait persister l'article et toutes ses composantes
             $manager->flush();                          // on enregistre en base de données
@@ -156,10 +178,29 @@ class BlogController extends Controller
 
         $form = $this->createForm(ArticleType::class, $article)->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {      // si formulaire soumis et valide
-        
-            $fileName = $fileUploader->upload($article->file);  // on récupère le fichier à télécharger
-            $article->setImage ( $fileName );                   // et on le met en base
+        if($form->isSubmitted() && $form->isValid()) {              // si formulaire soumis et valide
+            if($article->file !== null) {
+                $fileName = $fileUploader->upload($article->file);  // on récupère le fichier à télécharger
+                $article->setImage ( $fileName ); 
+            }
+            
+            foreach($article->getPhotos() as $photo) {
+                if($photo->file !== null) {
+                    $fileName = $fileUploader->upload($photo->file); // on récupère le fichier à télécharger
+                    $photo->setName ( $fileName );                   // et on le met en base
+                }
+            }
+            
+            foreach($article->getVideos() as $video) {
+                if($video->name !== null) {
+                    $videoName 	= str_replace('youtu.be/', 'www.youtube.com/embed/', $video);
+		            $videoName 	= str_replace('www.youtube.com/watch?v=', 'www.youtube.com/embed/', $video);
+                    $video->setName ($videoName);
+                }
+
+            }
+            
+            $manager->persist($article);
             $manager->flush();                                  // on enregistre en base de données
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé
@@ -199,5 +240,7 @@ class BlogController extends Controller
             'form' => $form->createView()               // et on crée la vue du fichier de confirmation
         ]);
     }
-
 }
+
+
+
