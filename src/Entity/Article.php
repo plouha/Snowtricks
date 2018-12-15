@@ -6,10 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\Form\CommentType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert ;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @UniqueEntity(fields={"slug"}, message="Impossible, slug déjà utilisé")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Article
@@ -22,9 +24,16 @@ class Article
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+    
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=128, unique=true)
+     */
+    public $slug; 
 
     /**
      * @ORM\Column(type="text")
@@ -149,25 +158,7 @@ class Article
         return $this->comments;
     }
     
-   // /**
-    // * @return int|null
-    // */
-    //  public function getId(): ?int
-    //  {
-    //      return $this->id;
-    //  } */
-    
-    /**
-     * @return null|string
-     */
-    //public function getName(): ?string
-    //{
-    //    return $this->name;
-    //}
-    
-    /**
-     * @param null|string $name
-     */
+
     public function setName(?string $name): void
     {
         $this->name = $name;
@@ -223,6 +214,44 @@ class Article
     {
         $video->setArticle(null);
         $this->videos->removeElement($video);
+    }
+    
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+    
+    public function createSlug($text)
+    {
+        
+        // met en minuscule
+        $text = strtolower($text);
+        
+        // supprime ce qui n'est pas une lettre
+        $slug = preg_replace('#[^\\pL\d]+#u', '', $text);
+    
+        // supprime espace avant et après
+        $slug = trim($text, '');
+
+        // remplace les espaces par des tirets
+        $slug = str_replace(' ', '-', $text);
+
+        return $slug;
+
+    }
+    
+    
+    public function __toString(){
+
+        return $this->title;
+
     }
     
 }

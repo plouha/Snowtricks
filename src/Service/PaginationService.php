@@ -4,7 +4,9 @@ namespace App\Service;
 
 use App\Form\CommentType;
 use App\Entity\Article;
+use Symfony\Config\Routes;
 use Doctrine\Common\Persistence\ObjectManager; // donne accès à toutes les méthodess (find, persist, ...)
+
 
 class PaginationService {
     

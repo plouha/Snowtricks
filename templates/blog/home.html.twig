@@ -26,10 +26,10 @@
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="btn-group">
-                        <a href="{{ path('blog_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-secondary">{{ article.title }}</a>
+                        <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn btn-sm btn-outline-secondary">{{ article.title}}</a>
                       </div>
                       <div class="btn-group">
-                        <a href="{{ path('blog_update', {'id': article.id}) }}"><img src="{{ asset('upload/crayon.png') }}" data-toggle="tooltip" style="margin-right: 30px";></a> 
+                        <a href="{{ path('blog_update', {'slug': article.slug}) }}"><img src="{{ asset('upload/crayon.png') }}" data-toggle="tooltip" style="margin-right: 30px";></a> 
                         <a href="{{ path('blog_delete', {'id': article.id}) }}"><img src="{{ asset('upload/Poubelle.png') }}" data-toggle="tooltip";></a>
                       </div>
                     </div>

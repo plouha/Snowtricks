@@ -69,17 +69,17 @@
       
       <ul class="pagination">
         <li class="page-item {% if page == 1 %}disabled{% endif %}">
-          <a class="page-link" href="{{path('blog_show', {'page': page - 1, id: article.id})}}">&laquo;</a>
+          <a class="page-link" href="{{path('blog_show', {'page': page - 1, slug: article.slug})}}">&laquo;</a>
         </li>
         
         {% for i in 1..pages %}
         <li class="page-item {% if page == i %}active{% endif %}">
-          <a class="page-link" href="{{path('blog_show', {'page': i, id: article.id})}}">{{ i }}</a>
+          <a class="page-link" href="{{path('blog_show', {'page': i, slug: article.slug})}}">{{ i }}</a>
         </li>
         {% endfor %}
         
         <li class="page-item {% if page == pages %}disabled{% endif %}">
-          <a class="page-link" href="{{path('blog_show', {'page': page + 1, id: article.id})}}">&raquo;</a>
+          <a class="page-link" href="{{path('blog_show', {'page': page + 1, slug: article.slug})}}">&raquo;</a>
         </li>
       </ul>
       {% endif %}

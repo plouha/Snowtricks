@@ -26,7 +26,7 @@ class ArticleType extends AbstractType
                 "choice_label" => "name"
             ])
             ->add('file', FileType::class, array ( 'label' => 'Image principale à uploader pour cet article', 'required' => false ))
-            //->add('name', TextType::class)
+
             ->add('photos', CollectionType::class, [
                 "entry_type"    => PhotoType::class,
                 "allow_add"     => true,

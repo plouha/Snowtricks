@@ -42,6 +42,7 @@ class BlogController extends Controller
     
     /**
      * @Route("/{page<\d+>?1}", name="home")
+     * @param $slug
      */
     public function home(EntityManagerInterface $manager, $page, ArticlePaginationService $pagination) 
     {   
@@ -50,7 +51,7 @@ class BlogController extends Controller
         return $this->render('blog/home.html.twig', [
             'pagination' => $pagination                 // on passe les données de pagination
 
-            //'pages_range' => range(max(1, $page-2), min($pages, $page+2))
+
         ]);
     }
 
@@ -59,6 +60,7 @@ class BlogController extends Controller
      */
     public function create(Request $request, ObjectManager $manager, FileUploader $fileUploader)
     {
+
         $article = new Article();           // on crée une instance de la classe Article
 
                                             // $form est un objet contenant les éléments du form
@@ -69,9 +71,14 @@ class BlogController extends Controller
 
             $article->setCreatedAt(new \DateTime);      // on crée la date du moment
             $fileName = $fileUploader->upload($article->file); // on récupère le fichier à télécharger
-            $article->setImage ( $fileName );           // et on le met en base
-
+            $article->setImage ($fileName);           // et on le met en base
             
+            $text = $article->getTitle();               // on récupère le titre de l'article
+            
+            $slug = $article->createSlug($text);        // on crée le slug à partir du titre
+
+            $article->setSlug($slug);                   // on met le slug en base avec le reste des données de l'article
+                                                        
                                                         // Pour les collections de photos et vidéos liées à chaque article
             foreach($article->getPhotos() as $photo) {
                 if($photo->file !== null) {
@@ -91,7 +98,7 @@ class BlogController extends Controller
             $manager->persist($article);                // on fait persister l'article et toutes ses composantes
             $manager->flush();                          // on enregistre en base de données
 
-            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé
+            return $this->redirectToRoute('blog_show', array('slug' => $article->getSlug()));  // on va sur l'article créé
         }
 
         return $this->render('blog/create.html.twig', [
@@ -101,13 +108,16 @@ class BlogController extends Controller
 
 
     /**
-     * @Route("/blog/show/{id}/{page<\d+>?1}", name="blog_show")
+     * @Route("/blog/show/{slug}/{page<\d+>?1}", name="blog_show")
+     * @param $slug
      */
-    public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination)
+    public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination, $slug)
     {
-        $comment = new Comment();           // on crée une instance de la classe Comment
         
-                                            // $form est un objet contenant les éléments du form
+        $slug = $article->getSlug();         // on récupère le slug
+        
+        $comment = new Comment();                   // on crée une instance de la classe Comment
+                                                    // $form est un objet contenant les éléments du form
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);     // on demande l'analyse de la requete
 
                     
@@ -122,16 +132,16 @@ class BlogController extends Controller
 
             $manager->flush();                          // on enregistre en base de données
 
-            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on retourne sur l'article mis à jour
+            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug() ]);  // on retourne sur l'article mis à jour
         }
-        
-    
+
         $pagination ->setArticle($article)
                     ->setLimit(5)                           // indique la limite ... ici différente (5 au lieu de 6)
                     ->setPage($page);                       // indique la page concernée (1 par défaut)
                     
         return $this->render('blog/show.html.twig', [
             'article' => $article,                      // on passe les données de l'article
+            'slug' => $slug,                            // on passe le slug
             'pagination' => $pagination,                // on envoie les informations pour la pagination des commentaires
             'formComment' => $form->createView()        // on passe à TWIG le résultat des éléments pour le formulaire
         ]);                                             // dont il a besoin et on fait la vue
@@ -171,9 +181,10 @@ class BlogController extends Controller
     }    
 
     /**
-     * @Route("/blog/update/{id}", name="blog_update")
+     * @Route("/blog/update/{slug}", name="blog_update")
+     * @param $slug
      */
-    public function update(Article $article, Request $request, ObjectManager $manager, FileUploader $fileUploader)
+    public function update(Article $article, Request $request, ObjectManager $manager, FileUploader $fileUploader, $slug)
     {
 
         $form = $this->createForm(ArticleType::class, $article)->handleRequest($request);
@@ -181,7 +192,8 @@ class BlogController extends Controller
         if($form->isSubmitted() && $form->isValid()) {              // si formulaire soumis et valide
             if($article->file !== null) {
                 $fileName = $fileUploader->upload($article->file);  // on récupère le fichier à télécharger
-                $article->setImage ( $fileName ); 
+                $article->setImage ( $fileName );
+                $article->setSlug();
             }
             
             foreach($article->getPhotos() as $photo) {
@@ -203,7 +215,7 @@ class BlogController extends Controller
             $manager->persist($article);
             $manager->flush();                                  // on enregistre en base de données
 
-            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);  // on va sur l'article créé
+            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()]);  // on va sur l'article créé
         }
         return $this->render('blog/update.html.twig', [
             'formArticle' => $form->createView(),
