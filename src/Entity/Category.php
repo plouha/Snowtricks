@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,11 +25,11 @@ class Category
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="categorie")
      */
-    private $relation;
+    private $articles;
 
     public function __construct()
     {
-        $this->relation = new Category();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId()
@@ -48,16 +49,8 @@ class Category
         return $this;
     }
 
-    public function removeRelation(Article $relation): self
+    public function getArticles()
     {
-        if ($this->relation->contains($relation)) {
-            $this->relation->removeElement($relation);
-            // set the owning side to null (unless already changed)
-            if ($relation->getCategorie() === $this) {
-                $relation->setCategorie(null);
-            }
-        }
-
-        return $this;
+        return $this->articles;
     }
 }

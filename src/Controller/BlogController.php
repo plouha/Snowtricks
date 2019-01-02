@@ -160,19 +160,20 @@ class BlogController extends Controller
         $form->handleRequest($request);                 //on analyse et on le form comme requete
 
 
-            if($form->isSubmitted())                    //s'il a été soumis on exécute le code dessous
-            {
-                $comment->setSignaled("1");             //on change la valeur du booléen
-                $manager->persist($comment);
-                $manager->flush();
+        if($form->isSubmitted())                    //s'il a été soumis on exécute le code dessous
+        {
+            $comment->setSignaled(true);             //on change la valeur du booléen
+            $manager->persist($comment);
+            $manager->flush();
 
-                $this->addFlash(
-                    'Confirmation : ',
-                    'Commentaire signalé !'
-                );
+            $this->addFlash(
+                'Confirmation : ',
+                'Commentaire signalé !'
+            );
 
-            return $this->redirectToRoute('blog_show', ['id' => $comment->getArticle()->getId()]);  // on va sur l'article & commentaire signalé
-            }        
+        // return $this->redirectToRoute('home');
+            return $this->redirectToRoute('blog_show', ['slug' => $comment->getArticle()->getSlug() ]); // on va sur l'article & commentaire signalé
+        }        
         
         return $this->render('blog/signal.html.twig', [ // s'il n'a pas été soumis on appelle le fichier twig
             'form' => $form->createView()               // et on crée la vue du fichier de confirmation
@@ -204,7 +205,7 @@ class BlogController extends Controller
             }
             
             foreach($article->getVideos() as $video) {
-                if($video->name !== null) {
+                if($video->getName() !== null) {
                     $videoName 	= str_replace('youtu.be/', 'www.youtube.com/embed/', $video);
 		            $videoName 	= str_replace('www.youtube.com/watch?v=', 'www.youtube.com/embed/', $video);
                     $video->setName ($videoName);
@@ -215,7 +216,8 @@ class BlogController extends Controller
             $manager->persist($article);
             $manager->flush();                                  // on enregistre en base de données
 
-            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()]);  // on va sur l'article créé
+            return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()]);   // on va sur l'article créé
+            
         }
         return $this->render('blog/update.html.twig', [
             'formArticle' => $form->createView(),

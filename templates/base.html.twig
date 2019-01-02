@@ -54,7 +54,10 @@
                       </ul>
                     </div>
                 </nav>
+            <br>
+            </br>
             </div>
+
             
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
@@ -65,8 +68,7 @@
                 {% endfor %}
             {% endfor %}
         </body>
-        </br>
-        </br>
+
         {% block body %}
 
         {% endblock %}
