@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager; // donne accès à toutes les mé
 class CommentPaginationService {
     
     private $entityClass;
-    private $limit = 6;
+    private $limit = 10;
     private $currentPage = 1;
     private $manager;
     private $article;

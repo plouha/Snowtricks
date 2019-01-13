@@ -36,6 +36,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $pseudo;
+    
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatar;
+    
+    /**
+     * @Assert\File(mimeTypes={ "image/jpeg", "image/png", "image/jpg", "image/gif" })
+     */
+    public $file;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -107,6 +117,18 @@ class User implements UserInterface
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+    
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
     public function setPassword(string $password): self

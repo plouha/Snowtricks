@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Upload;
+use App\Entity\UploadedFile;
+use App\Service\FileUploader;
 use App\Form\RegistrationType;
 use App\Form\RecoveryType;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,8 +34,8 @@ class SecurityController extends Controller
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error,
-        ));
-        
+        ));        
+
     }
     
     /**
@@ -97,7 +100,7 @@ class SecurityController extends Controller
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, FileUploader $fileUploader) {
         
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user)->handleRequest($request);
@@ -106,9 +109,16 @@ class SecurityController extends Controller
 
             $hash = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($hash);
-
+            $fileName = $fileUploader->upload($user->file); // on récupère le fichier d'avatar à télécharger
+            $user->setAvatar ($fileName);           // et on le met en base
             $manager->persist($user);
             $manager->flush();
+            
+                    
+                $this->addFlash(
+                    'Confirmation : ',
+                    'Votre compte a été créé. Vous pouvez vous connecter !'
+                );
 
             return $this->redirectToRoute('security_login'); // Après inscription on est redirigé sur le formulaire de login
         }
@@ -122,6 +132,6 @@ class SecurityController extends Controller
      * @Route("/deconnexion", name="security_logout")
      */
     public function logout() {
-
+                                
     }
 }

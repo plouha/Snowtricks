@@ -29,11 +29,12 @@
 
 <div class="container">
         <hr>
-        <h3>Commentaires</h3>
+        <h3>Espace de discussion</h3>
     </br>
     <table>
         {% for comment in pagination.data %}
             <div class= bg-light rounded mb-4>
+            <img class="thumbnail zoom" style="width: 50px; height: 50px; margin-left: 0px;" src="{{ asset("upload/" ~ comment.user.avatar ) }}" alt="">
             <h4><strong>{{ comment.user.pseudo }}</strong></h4>
               <div class="comment">
                 <div class="row">
@@ -113,7 +114,7 @@
 <footer class="text-muted">
     <div class="container">
         <a href="{{ path('home', {'_fragment':'album'}) }}" class="btn btn-outline-warning btn-sm float-right">Retour</a>
-        <p>Site construit à l'aide de Bootstrap &copy; {{ 'now'|date('Y') }} & Symfony 4 </p>
+        <p>Site construit &copy; {{ 'now'|date('Y') }} à l'aide de Bootstrap & Symfony 4 </p>
     </div>
 </footer>
 {% endblock %} 

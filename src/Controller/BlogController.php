@@ -98,6 +98,11 @@ class BlogController extends Controller
             $manager->persist($article);                // on fait persister l'article et toutes ses composantes
             $manager->flush();                          // on enregistre en base de données
 
+            $this->addFlash(
+                'Confirmation : ',
+                'Votre article a été créé !'
+            );
+
             return $this->redirectToRoute('blog_show', array('slug' => $article->getSlug()));  // on va sur l'article créé
         }
 
@@ -111,7 +116,7 @@ class BlogController extends Controller
      * @Route("/blog/show/{slug}/{page<\d+>?1}", name="blog_show")
      * @param $slug
      */
-    public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination, $slug)
+    public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination, $slug, FileUploader $fileUploader)
     {
         
         $slug = $article->getSlug();         // on récupère le slug
@@ -131,12 +136,17 @@ class BlogController extends Controller
             $manager->persist($comment);                // on fait persister $article
 
             $manager->flush();                          // on enregistre en base de données
-
+            
+                $this->addFlash(
+                    'Confirmation : ',
+                    'Commentaire crée !'
+                );
+            
             return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug() ]);  // on retourne sur l'article mis à jour
         }
 
         $pagination ->setArticle($article)
-                    ->setLimit(5)                           // indique la limite ... ici différente (5 au lieu de 6)
+                    ->setLimit(10)                           // indique la limite ... ici 10
                     ->setPage($page);                       // indique la page concernée (1 par défaut)
                     
         return $this->render('blog/show.html.twig', [
@@ -215,6 +225,11 @@ class BlogController extends Controller
             
             $manager->persist($article);
             $manager->flush();                                  // on enregistre en base de données
+            
+            $this->addFlash(
+                'Confirmation : ',
+                'Votre article a été modifié!'
+            );
 
             return $this->redirectToRoute('blog_show', ['slug' => $article->getSlug()]);   // on va sur l'article créé
             

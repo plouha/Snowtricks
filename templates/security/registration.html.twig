@@ -7,6 +7,7 @@
     {{ form_start(form) }}
     {{ form_row(form.pseudo, {'label': 'Pseudo', 'attr': {'placeholder': 'Votre pseudo ... '}}) }}
     {{ form_row(form.email, {'label': 'Adresse mail', 'attr': {'placeholder': 'Votre adresse email ... '}}) }}
+    {{ form_row(form.file, {'attr': {'placeholder': "sélectionnez une image à uploader pour votre avatar"}}) }}    
     {{ form_row(form.plainPassword.first, {'label': 'Mot de passe', 'attr': {'placeholder': 'Votre mot de passe ... '}}) }}
     {{ form_row(form.plainPassword.second, {'label': 'Confirmation mot de passe', 'attr': {'placeholder': 'Confirmez le mot de passe ... '}}) }}
     <br>

@@ -32,7 +32,8 @@
     <br>
     <button type="submit" class="btn btn-success">Ajouter</button>
     <br>
-    {{ form_end(formArticle) }}
+    {{ form_widget(formArticle._token) }}
+    {{ form_end(formArticle, { render_rest: false }) }}
     
     </div>
     <br>

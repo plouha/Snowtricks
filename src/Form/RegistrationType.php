@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationType extends AbstractType
 {
@@ -18,6 +19,7 @@ class RegistrationType extends AbstractType
         $builder
             ->add('email')
             ->add('pseudo')
+            ->add('file', FileType::class, array ( 'label' => 'Image à uploader pour votre avatar', 'required' => false ))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'Vos passwords sont différents',
