@@ -42,7 +42,7 @@
                         Ecrit le&nbsp;&nbsp;{{ comment.createdAt | date('d/m/Y') }}&nbsp;&nbsp; à &nbsp;&nbsp;{{ comment.createdAt | date('H:i') }}&nbsp;&nbsp;
                     </div>
                     <div class="col-8">
-                        {{ comment.content | raw }}
+                        {{ comment.content }}
 
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <a href="{{ path('blog_signal', {'id': comment.id}) }}" class="btn btn-warning float-right">Signaler</a>

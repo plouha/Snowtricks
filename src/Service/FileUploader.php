@@ -20,8 +20,8 @@ class FileUploader
         try {
             $file -> move ( $this -> targetDirectory, $fileName );
         } catch ( FileException $e ) {
-            var_dump($e->getMessage());
-            exit;
+            echo $e->getMessage();
+
         }
 
         return $fileName ;
