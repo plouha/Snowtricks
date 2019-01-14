@@ -28,7 +28,7 @@ class AdminCommentController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Comment::class);
 
         $comments = $repo->findby(
-            ['signaled' => '1']
+            ['signaled' => 'true']
             );
 
         return $this->render('admin_comment/index.html.twig', [
@@ -46,7 +46,7 @@ class AdminCommentController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {          // si formulaire soumis et valide
 
-            $comment->setSignaled("0");        
+            $comment->setSignaled("false");        
             $manager->flush();                                  // on enregistre en base de données
 
             $this->addFlash(                                    // on envoie un message de confirmation

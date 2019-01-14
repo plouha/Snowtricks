@@ -181,7 +181,6 @@ class BlogController extends Controller
                 'Commentaire signalé !'
             );
 
-        // return $this->redirectToRoute('home');
             return $this->redirectToRoute('blog_show', ['slug' => $comment->getArticle()->getSlug() ]); // on va sur l'article & commentaire signalé
         }        
         
