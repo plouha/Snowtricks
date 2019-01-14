@@ -1,4 +1,6 @@
 {
+    "name": "vendor-composer.json/snowtricks",
+    "description": "Blog sur le snowboard!",
     "type": "project",
     "license": "proprietary",
     "require": {
