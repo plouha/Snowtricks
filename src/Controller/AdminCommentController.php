@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AdminCommentController extends AbstractController
 {
     /**
-     * @Route("/admin/comment", name="admin_comment")
+     * @Route("/admin/comment", name="admin_comment", methods={"GET", "POST"})
      */
     public function index()
     {

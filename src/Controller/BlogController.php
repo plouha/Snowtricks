@@ -41,7 +41,7 @@ class BlogController extends Controller
 {
     
     /**
-     * @Route("/{page<\d+>?1}", name="home")
+     * @Route("/{page<\d+>?1}", name="home", methods={"GET", "POST"})
      * @param $slug
      */
     public function home(EntityManagerInterface $manager, $page, ArticlePaginationService $pagination) 
