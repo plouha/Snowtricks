@@ -22,7 +22,7 @@ class SecurityController extends Controller
 {
     
     /**
-     * @Route("/connexion", name="security_login")
+     * @Route("/connexion", name="security_login", methods={"GET", "POST"})
      */
     public function login(AuthenticationUtils $authenticationUtils) { // Formulaire de connexion avec contrôle d'authentification
 
@@ -39,7 +39,7 @@ class SecurityController extends Controller
     }
     
     /**
-     * @Route("/security/recover", name="password_recover")
+     * @Route("/security/recover", name="password_recover", methods={"GET", "POST"})
      */
      public function passwordRecover (AuthenticationUtils $authenticationUtils, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder) {
         
@@ -98,7 +98,7 @@ class SecurityController extends Controller
      }
     
     /**
-     * @Route("/inscription", name="security_registration")
+     * @Route("/inscription", name="security_registration", methods={"GET", "POST"})
      */
     public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, FileUploader $fileUploader) {
         
@@ -129,7 +129,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/deconnexion", name="security_logout")
+     * @Route("/deconnexion", name="security_logout", methods={"GET", "POST"})
      */
     public function logout() {
                                 

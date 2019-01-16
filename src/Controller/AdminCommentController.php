@@ -38,7 +38,7 @@ class AdminCommentController extends AbstractController
     }
     
     /**
-     * @Route("/admin/comment/update/{id}", name="comment_update")
+     * @Route("/admin/comment/update/{id}", name="comment_update", methods={"GET", "POST"})
      */
     public function update(Comment $comment, Request $request, ObjectManager $manager)
     {
@@ -62,7 +62,7 @@ class AdminCommentController extends AbstractController
     }
     
     /**
-     * @Route("/admin/comment/delete/{id}", name="comment_delete")
+     * @Route("/admin/comment/delete/{id}", name="comment_delete", methods={"GET", "POST"})
      */
     public function delete(Comment $comment, Request $request, ObjectManager $manager)
     {

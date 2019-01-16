@@ -56,7 +56,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/", name="blog_create")
+     * @Route("/blog/", name="blog_create", methods={"GET", "POST"})
      */
     public function create(Request $request, ObjectManager $manager, FileUploader $fileUploader)
     {
@@ -113,7 +113,7 @@ class BlogController extends Controller
 
 
     /**
-     * @Route("/blog/show/{slug}/{page<\d+>?1}", name="blog_show")
+     * @Route("/blog/show/{slug}/{page<\d+>?1}", name="blog_show", methods={"GET", "POST"})
      * @param $slug
      */
     public function show(Article $article, Request $request, ObjectManager $manager, $page, CommentPaginationService $pagination, $slug, FileUploader $fileUploader)
@@ -130,7 +130,7 @@ class BlogController extends Controller
 
             $comment->setCreatedAt(new \DateTime());    //on récupère la date actuelle
             $comment->setArticle($article);             //on récupère l'id de l'article lié
-            $comment->setSignaled("0");                 // Par défaut on indique ... "non signalé"
+            $comment->setSignaled("false");                 // Par défaut on indique ... "non signalé"
             $comment->setUser($this->getUser());        //on récupère l'id de l'auteur           
 
             $manager->persist($comment);                // on fait persister $article
@@ -159,7 +159,7 @@ class BlogController extends Controller
     }
     
     /**
-     * @Route("/blog/signal/{id}", name="blog_signal")
+     * @Route("/blog/signal/{id}", name="blog_signal", methods={"GET", "POST"})
      */
     public function signal(Comment $comment, Request $request, ObjectManager $manager)
     {
@@ -191,7 +191,7 @@ class BlogController extends Controller
     }    
 
     /**
-     * @Route("/blog/update/{slug}", name="blog_update")
+     * @Route("/blog/update/{slug}", name="blog_update", methods={"GET", "POST"})
      * @param $slug
      */
     public function update(Article $article, Request $request, ObjectManager $manager, FileUploader $fileUploader, $slug)

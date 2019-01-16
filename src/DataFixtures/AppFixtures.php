@@ -93,7 +93,7 @@ class AppFixtures extends Fixture
         $manager->persist($onefoot);   // on fait persister l'article
         
         
-        // Si on veut des données fictives on utilisera le code ci-dessous ( => commenter le code ci-dessus)
+        // Si on veut des données fictives on utilisera le code ci-dessous 
         /*for($j = 1; $j <= 2; $j++) {
             $category = new Category();
             $category->setName("Catégorie N°".$j);
