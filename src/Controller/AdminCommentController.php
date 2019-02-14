@@ -46,7 +46,7 @@ class AdminCommentController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {          // si formulaire soumis et valide
 
-            $comment->setSignaled("false");        
+            $comment->setSignaled('0');        
             $manager->flush();                                  // on enregistre en base de données
 
             $this->addFlash(                                    // on envoie un message de confirmation

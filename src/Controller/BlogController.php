@@ -88,7 +88,7 @@ class BlogController extends Controller
             }
             
             foreach($article->getVideos() as $video) {      // On change l'url pour qu'elle finisse par /embed/nom du fichier youtube
-                if($video->name !== null) {                 // en utilisant le fonction PHP str_replace
+                if($video->getName() !== null) {                 // en utilisant le fonction PHP str_replace
                     $videoName 	= str_replace('youtu.be/', 'www.youtube.com/embed/', $video); 
 		            $videoName 	= str_replace('www.youtube.com/watch?v=', 'www.youtube.com/embed/', $video);
                     $video->setName ($videoName);
@@ -203,7 +203,7 @@ class BlogController extends Controller
             if($article->file !== null) {
                 $fileName = $fileUploader->upload($article->file);  // on récupère le fichier à télécharger
                 $article->setImage ( $fileName );
-                $article->setSlug();
+                $article->setSlug($slug);
             }
             
             foreach($article->getPhotos() as $photo) {
