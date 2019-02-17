@@ -26,10 +26,12 @@
                       <div class="btn-group">
                         <a href="{{ path('blog_show', {'slug': article.slug}) }}" class="btn btn-sm btn-outline-secondary">{{ article.title}}</a>
                       </div>
+                      {% if is_granted('ROLE_USER') %}
                       <div class="btn-group">
                         <a href="{{ path('blog_update', {'slug': article.slug}) }}"><img src="{{ asset('upload/crayon.png') }}" data-toggle="tooltip" style="margin-right: 30px";></a> 
                         <a href="{{ path('blog_delete', {'id': article.id}) }}"><img src="{{ asset('upload/Poubelle.png') }}" data-toggle="tooltip";></a>
                       </div>
+                      {% endif  %}
                     </div>
                   </div>
                 </div>
